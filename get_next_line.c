@@ -6,7 +6,7 @@
 /*   By: amarti <amarti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 00:41:04 by amarti            #+#    #+#             */
-/*   Updated: 2025/02/07 13:15:47 by amarti           ###   ########.fr       */
+/*   Updated: 2025/02/08 09:50:14 by amarti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,11 @@
 
 char	*fill_line_buffer(char *left_c, int fd)
 {
-	char *buffer;	// stock par iteration de buffersize
+	char *buffer;
 	char *svgrdmem;
-	ssize_t read2; // nombre de caracteres lu par read sert de repere
-
+	ssize_t read2; 
 	read2 = 1;
-	buffer = malloc((BUFFER_SIZE + 1) * sizeof(char));
+	buffer = (char *)malloc((BUFFER_SIZE + 1) * sizeof(char));
 	if (!buffer)
 		return(NULL);
 	if(!left_c)
@@ -43,8 +42,10 @@ char	*fill_line_buffer(char *left_c, int fd)
 		left_c = ft_strjoin(left_c, buffer);
 		free(svgrdmem);
 		if(!left_c)
+		{
 			free(buffer);
 			return(NULL);
+		}
 	}
 	free (buffer);
 	return (left_c);
@@ -58,7 +59,7 @@ char	*extract_line(char *left_c)
 	i = 0;
 	if(!left_c[0])
 		return(NULL);
-	if(!left_c[i] && left_c[i] != '\n')
+	while (left_c[i] && left_c[i] != '\n')
 		i++;
 	if(left_c[i] == '\n')
 		i++;
@@ -72,16 +73,19 @@ char	*new_left_c(char *left_c)
 	int		i;
 	int		iv2;
 
+	iv2 = 0;
 	i = 0;
 	while (left_c[i] && left_c[i] != '\n')
 		i++;
 	if (!left_c[i])
+	{
+		free(left_c);
 		return (NULL);
+	}
 	i++;
 	new_left = (char *)malloc(sizeof(char) * (ft_strlen(left_c) - i + 1));
 	if (!new_left)
 		return (NULL);
-	iv2 = 0;
 	while (left_c[i])
 		new_left[iv2++] = left_c[i++];
 	new_left[iv2] = '\0';
@@ -97,17 +101,17 @@ char	*get_next_line (int fd)
 	if (fd < 0 || BUFFER_SIZE <= 0)
 	{
 		free(left_c);
-		left_c = (NULL);
+		left_c = NULL;
 		return(NULL);
 	}
-	left_c = fill_line_buffer(fd, left_c);
+	left_c = fill_line_buffer(left_c, fd);
 	if(!left_c)
 		return(NULL);
 	line = extract_line(left_c);
 	if(!line)
 	{
 		free(left_c);
-		left_c = (NULL);new_left_c;
+		left_c = (NULL);
 		return(NULL);
 	}
 	svgrdmem = left_c;
@@ -115,19 +119,5 @@ char	*get_next_line (int fd)
 	free(svgrdmem);
 	return(line);
 }
-
-// char *get_next_line(int fd)
-// {
-// 	CHECK MEM + FD
-
-// 	CALL *fill_line_buffer TO READ --> '\0' || '\n'
-
-// 	FILL BUFFER_SIZE PER BUFFER_SIZE set_line 
-
-// 	WHEN set_line IS FULL, line PICK STR WITH THE \n AND LET "surplus" IN set_line COZ static fonction
-
-
-// 	LINE PUT \0 AFTER STR AND RETURN IT
-// }
 
 
