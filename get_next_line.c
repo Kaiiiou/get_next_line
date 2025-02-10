@@ -6,7 +6,7 @@
 /*   By: amarti <amarti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 00:41:04 by amarti            #+#    #+#             */
-/*   Updated: 2025/02/10 16:46:33 by amarti           ###   ########.fr       */
+/*   Updated: 2025/02/10 18:15:10 by amarti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ char	*fill_line_buffer(char *left_c, int fd)
 	char *buffer;
 	char *svgrdmem;
 	ssize_t read2; 
+	
 	read2 = 1;
 	buffer = (char *)malloc((BUFFER_SIZE + 1) * sizeof(char));
 	if (!buffer)
@@ -78,10 +79,7 @@ char	*new_left_c(char *left_c)
 	while (left_c[i] && left_c[i] != '\n')
 		i++;
 	if (!left_c[i])
-	{
-		free(left_c);
 		return (NULL);
-	}
 	i++;
 	new_left = (char *)malloc(sizeof(char) * (ft_strlen(left_c) - i + 1));
 	if (!new_left)
@@ -117,30 +115,18 @@ char	*get_next_line (int fd)
 	svgrdmem = left_c;
 	left_c = new_left_c(left_c);
 	free(svgrdmem);
-	return(line);
+	return (line);
 }
 
-int main(void)
+int main()
 {
-    int fd;
-    char *line;
+	int fd = open("test.txt", O_RDONLY);
+	char *line;
 
-    fd = open("test.txt", O_RDONLY);
-    if (fd == -1)
-    {
-        perror("Erreur d'ouverture");
-        return (1);
-    }
-
-    while ((line = get_next_line(fd)))
-    {
-        if (line)
-        {
-            printf("Ligne lue : %s", line);
-            free(line);
-        }
-    }
-
-    close(fd);
-    return (0);
+	while ((line = get_next_line(fd)) != NULL)
+	{
+		printf("%s", line);
+		free(line);
+	}
+	close (fd);
 }
