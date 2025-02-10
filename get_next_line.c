@@ -6,7 +6,7 @@
 /*   By: amarti <amarti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 00:41:04 by amarti            #+#    #+#             */
-/*   Updated: 2025/02/08 09:50:14 by amarti           ###   ########.fr       */
+/*   Updated: 2025/02/10 16:46:33 by amarti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,4 +120,27 @@ char	*get_next_line (int fd)
 	return(line);
 }
 
+int main(void)
+{
+    int fd;
+    char *line;
 
+    fd = open("test.txt", O_RDONLY);
+    if (fd == -1)
+    {
+        perror("Erreur d'ouverture");
+        return (1);
+    }
+
+    while ((line = get_next_line(fd)))
+    {
+        if (line)
+        {
+            printf("Ligne lue : %s", line);
+            free(line);
+        }
+    }
+
+    close(fd);
+    return (0);
+}

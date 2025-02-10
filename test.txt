@@ -1,0 +1,24 @@
+Bonjour, ceci est un test de la fonction  get_next_line. Bonne chance ! 
+Hello, world!
+This is a test.
+Goodbye!Hello, world!
+This is a test.
+Goodbye!Hello, world!
+This is a test.
+Goodbye!Hello, world!
+This is a test.
+Goodbye!Hello, world!
+This is a test.
+Goodbye!Hello, world!
+This is a test.
+Goodbye!Hello, world!
+This is a test.
+Goodbye!Hello, world!
+This is a test.
+Goodbye!Hello, world!
+This is a test.
+Goodbye!Hello, world!
+This is a test.
+Goodbye!
+
+

@@ -6,13 +6,13 @@
 /*   By: amarti <amarti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 00:41:07 by amarti            #+#    #+#             */
-/*   Updated: 2025/02/08 11:03:09 by amarti           ###   ########.fr       */
+/*   Updated: 2025/02/10 16:42:45 by amarti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-char	*ft_strchr(const char *str, int c)
+char	*ft_strchr(char *str, int c)
 {
 	size_t	i;
 
@@ -62,4 +62,46 @@ char	*ft_strjoin(const char *s1, const char *s2)
 	}
 	s3[i] = '\0';
 	return(s3);
+}
+
+char	*ft_strdup(char *s1)
+{
+	char	*s2;
+	int		i;
+
+	i = 0;
+	s2 = malloc (sizeof(char) * (ft_strlen(s1) + 1));
+	if (!s2)
+		return (NULL);
+	while(s1[i])
+	{
+		s2[i] = s1[i];
+		i++;
+	}
+	s2[i] = '\0';
+	return(s2);
+}
+
+char	*ft_substr(char *s, unsigned int start, size_t len)
+{
+	size_t		i;
+	char	*str;
+
+	i = 0;
+	if(!s)
+		return(NULL);
+	if(start >= ft_strlen(s))
+		return(ft_strdup(""));
+	if(len > ft_strlen(s) - start)
+		len = ft_strlen(s) - start;
+	str = malloc(sizeof(char) * (len + 1));
+	if (!str)
+		return (NULL);
+	while(i < len)
+	{
+		str[i] = s[start + i];
+		i++;
+	}
+	str[i] = '\0';
+	return(str);
 }
