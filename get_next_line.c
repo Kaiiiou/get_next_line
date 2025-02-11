@@ -6,7 +6,7 @@
 /*   By: amarti <amarti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 00:41:04 by amarti            #+#    #+#             */
-/*   Updated: 2025/02/10 18:15:10 by amarti           ###   ########.fr       */
+/*   Updated: 2025/02/11 13:54:29 by amarti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,42 +14,31 @@
 
 char	*fill_line_buffer(char *left_c, int fd)
 {
-	char *buffer;
-	char *svgrdmem;
-	ssize_t read2; 
-	
+	char	*buffer;
+	char	*svgrdmem;
+	ssize_t	read2;
+
 	read2 = 1;
 	buffer = (char *)malloc((BUFFER_SIZE + 1) * sizeof(char));
 	if (!buffer)
-		return(NULL);
-	if(!left_c)
+		return (NULL);
+	if (!left_c)
 		left_c = ft_strdup("");
-	if(!left_c)
-	{
-		free(buffer);
-		return(NULL);
-	}
-	while(read2 > 0 && !ft_strchr(left_c, '\n'))
+	if (!left_c)
+		return (free(buffer), NULL);
+	while (read2 > 0 && !ft_strchr (left_c, '\n'))
 	{
 		read2 = read(fd, buffer, BUFFER_SIZE);
-		if(read2 == -1)
-		{
-			free(buffer);
-			free(left_c);
-			return(NULL);
-		}
+		if (read2 == -1)
+			return (free(buffer), free(left_c), NULL);
 		buffer[read2] = '\0';
 		svgrdmem = left_c;
 		left_c = ft_strjoin(left_c, buffer);
 		free(svgrdmem);
-		if(!left_c)
-		{
-			free(buffer);
-			return(NULL);
-		}
+		if (!left_c)
+			return (free(buffer), NULL);
 	}
-	free (buffer);
-	return (left_c);
+	return (free (buffer), left_c);
 }
 
 char	*extract_line(char *left_c)
@@ -58,11 +47,11 @@ char	*extract_line(char *left_c)
 	int		i;
 
 	i = 0;
-	if(!left_c[0])
-		return(NULL);
+	if (!left_c[0])
+		return (NULL);
 	while (left_c[i] && left_c[i] != '\n')
 		i++;
-	if(left_c[i] == '\n')
+	if (left_c[i] == '\n')
 		i++;
 	line = ft_substr(left_c, 0, i);
 	return (line);
@@ -90,7 +79,7 @@ char	*new_left_c(char *left_c)
 	return (new_left);
 }
 
-char	*get_next_line (int fd)
+char	*get_next_line(int fd)
 {
 	static char	*left_c;
 	char		*line;
@@ -100,33 +89,20 @@ char	*get_next_line (int fd)
 	{
 		free(left_c);
 		left_c = NULL;
-		return(NULL);
+		return (NULL);
 	}
 	left_c = fill_line_buffer(left_c, fd);
-	if(!left_c)
-		return(NULL);
+	if (!left_c)
+		return (NULL);
 	line = extract_line(left_c);
-	if(!line)
+	if (!line)
 	{
 		free(left_c);
 		left_c = (NULL);
-		return(NULL);
+		return (NULL);
 	}
 	svgrdmem = left_c;
 	left_c = new_left_c(left_c);
 	free(svgrdmem);
 	return (line);
-}
-
-int main()
-{
-	int fd = open("test.txt", O_RDONLY);
-	char *line;
-
-	while ((line = get_next_line(fd)) != NULL)
-	{
-		printf("%s", line);
-		free(line);
-	}
-	close (fd);
 }

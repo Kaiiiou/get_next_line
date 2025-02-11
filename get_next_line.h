@@ -6,21 +6,21 @@
 /*   By: amarti <amarti@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 00:41:01 by amarti            #+#    #+#             */
-/*   Updated: 2025/02/10 18:25:38 by amarti           ###   ########.fr       */
+/*   Updated: 2025/02/11 13:35:39 by amarti           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef	GET_NEXT_LINE_H
+#ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
 
-#ifndef	BUFFER_SIZE 
-# define BUFFER_SIZE 42
-#endif
+# ifndef BUFFER_SIZE 
+#  define BUFFER_SIZE 4
+# endif
 
-#include <fcntl.h>
-#include <stdio.h>
-#include <unistd.h>
-#include <stdlib.h>
+# include <fcntl.h>
+# include <stdio.h>
+# include <unistd.h>
+# include <stdlib.h>
 
 char	*get_next_line(int fd);
 char	*fill_line_buffer(char *left_c, int fd);
